@@ -60,8 +60,27 @@ const addingTitle = () => {
                 .then ((data) => {
                     let department_id;
 
-                    for 
-                })
+                    for (let i = 0; i <depArr.length; i++) {
+                        if (depArr[i] === data.department) {
+                            department_id = i +1;
+                        };
+                    };
+                    connection.query(
+                        `INSERT INTO titles (title, salary, departmentID)
+                        VALUES(?,?,?)`,
+                        [data.title_title, data.salary, department_id],
+                        function (err, results, fields) {
+                            if (err) {
+                                console.log(err.message);
+                                return;
+                            }
+                            console.log('title added')
+                            promptUser();
+                        }
+                    );
+                });
         }
-    )
-}
+    );
+};
+
+module.exports = {showTitles, addingTitle};
