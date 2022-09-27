@@ -34,3 +34,20 @@ const makeManagerTable = () => {
         }
     )
 };
+
+const addingManager = () => {
+    connection.query(
+        `INSERT INTO manager (firstName, lastName)
+        SELECT firstName, lastName
+        FROM employee
+        WHERE managerConfirm = 1`,
+        function (err, results, fields) {
+            if (err) {
+                console.log(err.message);
+            }
+            console.log('hello')
+        }
+    )
+};
+
+module.exports = { dropManager, makeManagerTable, addingManager }
