@@ -1,5 +1,7 @@
 const inquirer = require('inquirer');
-const { viewEmployees, employeesByDep, viewByManager, addEmployee } = require('./library/employee');
+const { viewDepartment, addDepartment } = require('./library/depMethods');
+const { viewEmployees, employeesByDep, viewByManager, addEmployee, employeeUpdate } = require('./library/employee');
+const { showTitles, addingTitle } = require('./library/titleMethods');
 const promptUser = () => {
     inquirer
         .prompt({
@@ -31,6 +33,24 @@ const promptUser = () => {
             case 'add employee':
                 addEmployee();
                 break;
+            case 'update employee':
+                employeeUpdate();
+                break;
+            case 'view departments':
+                viewDepartment();
+                break;
+            case 'add department':
+                addDepartment();
+                break;
+            case 'view titles':
+                showTitles();
+                break;
+            case 'add title':
+                addingTitle();
+                break;
+            case 'done':
+                break;
+            
         }
     })
-}
+};
