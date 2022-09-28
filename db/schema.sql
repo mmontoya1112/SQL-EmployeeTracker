@@ -4,7 +4,7 @@ CREATE DATABASE employees;
 USE employees;
 DROP TABLE IF EXISTS manager;
 DROP TABLE IF EXISTS department;
-DROP TABLE IF EXISTS title;
+DROP TABLE IF EXISTS titles;
 DROP TABLE IF EXISTS employee;
 
 CREATE TABLE manager (
@@ -20,7 +20,7 @@ CREATE TABLE department (
     PRIMARY KEY (id)
 );
 
-CREATE TABLE title (
+CREATE TABLE titles (
     id  INT NOT NULL AUTO_INCREMENT,
     title VARCHAR(30),
     salary DECIMAL,
@@ -37,7 +37,7 @@ CREATE TABLE employee (
     managerID INT,
     managerConfirm BOOLEAN,
     PRIMARY KEY (id),
-    FOREIGN KEY (titleID) REFERENCES titles(id),
-    FOREIGN KEY (managerID) REFERENCES titles(id) ON DELETE 
+    FOREIGN KEY (titleID) REFERENCES title(id),
+    FOREIGN KEY (managerID) REFERENCES title(id) ON DELETE 
     SET NULL
 )
