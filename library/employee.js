@@ -114,3 +114,76 @@ const viewByManager = () => {
         }
     );
 };
+const addEmployee = () => {
+    connection.query(
+        `SELECT * FROM titles`,
+        function (err, results, fields) {
+            if (err) {
+                console.log(err.message);
+                return;
+            }
+            let titleArray = [];
+            results.forEach(item => {
+                titleArray.push(item.title)
+            })
+            connection.query(
+                `SELECT * FROM manager`,
+                function (err, results, fields) {
+                    if (err) {
+                        console.log(err.message);
+                        return;
+                    }
+                    let managerArray = [];
+                    results.forEach(item => {
+                        managerArray.push(item.firstName)
+                    });
+                    inquirer
+                        .prompt([
+                            {
+                                type: 'text',
+                                name: 'firstName',
+                                message: 'employee first name'
+                            },
+                            {
+                                type: 'text',
+                                name: 'lasttName',
+                                message: 'employee last name'
+                            },
+                            {
+                                type: 'list',
+                                name: 'pickTitle',
+                                message: 'what title will your employee take?',
+                                choices: titleArray
+                            },
+                            {
+                                type: 'confirm',
+                                name: 'confirmManager',
+                                message: 'is this a management position?',
+                            },
+                            {
+                                type: 'list',
+                                name: 'chooseManager',
+                                message: 'who will manage the employee?',
+                                when: ({confirmManager}) => {
+                                    if(!confirmManager) {
+                                        return true;
+                                    } else {
+                                        return false;
+                                    }
+                                    },
+                                choices: managerArray
+                                }
+                        ])
+                        .then((data) => {
+                            let title_id;
+                            for (i = 0; i < titleArray.length; i++) {
+                                if (data.pickTitle === titleArray[i]) {
+                                    title_id = i + 1
+                                }
+                            }
+                        })
+                }
+            )
+        }
+    )
+}
