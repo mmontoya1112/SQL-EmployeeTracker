@@ -181,6 +181,23 @@ const addEmployee = () => {
                                     title_id = i + 1
                                 }
                             }
+                            let managerConfirm;
+                            if (data.confirmManager === true){
+                                managerConfirm = 1;
+                            } else {
+                                managerConfirm = 0
+                            }
+                            let manager_id;
+                            if (!data.chooseManager) {
+                                manager_id = null;
+                            } else {
+                                for (i = 0; i < managerArray.length; i++) {
+                                    if (data.chooseManager === managerArray[i]) {
+                                        manager_id = i +1
+                                    }
+                                }
+                            }
+                            
                         })
                 }
             )
