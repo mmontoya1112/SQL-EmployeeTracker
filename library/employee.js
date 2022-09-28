@@ -219,3 +219,78 @@ const addEmployee = () => {
         }
     );
 };
+const employeeUpdate = () => {
+    connection.query(
+        `SELECT * FROM titles`,
+        function (err, results, fields) {
+            if (err) {
+                console.log(err.message);
+                return;
+            }
+            let titleArray = [];
+            results.forEach(item => {
+                titleArray.push(item.title)
+            })
+            connection.query(
+                `SELECT firstName, lastName FROM employee`,
+                function (err, results, fields) {
+                    if (err) {
+                        console.log(err.message);
+                    }
+                    let nameArray = [];
+                    results.forEach(item => {
+                        nameArray.push(item.firstName);
+                        nameArray.push(item.lastName);
+                    })
+                    let combineNameArray = [];
+                    for (let i = 0; i < nameArray.length; i += 2)
+                        if (!nameArray[i +1])
+                            break;
+                            combineNameArray.push(`${nameArray[i]} ${nameArray[i + 1]}`)
+                },
+                inquirer
+                    .prompt([
+                        {
+                            type: 'list',
+                            name: 'selectName',
+                            message: 'select an employee to update',
+                            choices: combineNameArray
+                        },
+                        {
+                            type: 'list',
+                            name: 'selectTitle',
+                            message: 'select title for an employee to change to',
+                            choices: titleArray
+                        }
+                    ])
+                    .then((data) => {
+                        let title_id;
+                        for (let i = 0; i < titleArray.length; i++) {
+                            if (data.title_select === titleArray[i]) {
+                                title_id = i + 1;
+                            }
+                        };
+                        let selectNameArray = data.name_select.split(" ");
+                        let lastName = selectNameArray.pop();
+                        let firsName = selectNameArray[0];
+
+                        connection.query(
+                            `UPDATE employee
+                                SET title_id = ?
+                                WHERE firstName = ? AND lastName = ?`,
+                                [title_id, firsName, lastName],
+                                function (err, results, fields) {
+                                    if (err) {
+                                        console.log(err.message);
+                                        return;
+                                    }
+                                    console.log('employee up to date');
+                                    promptUser();
+                                }
+                        );
+                    })
+            )
+        }
+    );
+};
+module.exports = {viewEmployees, employeesByDep, viewByManager, addEmployee, employeeUpdate};
