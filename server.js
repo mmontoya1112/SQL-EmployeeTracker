@@ -54,3 +54,9 @@ const promptUser = () => {
         }
     })
 };
+module.exports = { promptUser }
+const { viewEmployees, employeesByDep, viewByManager, addEmployee, employeeUpdate} = require('./library/employee');
+const { viewDepartment, addDepartment } = require('./library/depMethods');
+const { showTitles, addingTitle } = require('./library/titleMethods');
+
+promptUser()
