@@ -74,3 +74,43 @@ const employeesByDep = () => {
         }
     );
 };
+const viewByManager = () => {
+    connection.query(
+        `SELECT * FROM manager`,
+        function (err, results, fields) {
+            if (err) {
+                console.log(err.message);
+                return;
+            }
+            managerArray = [];
+            results.forEach(item => {
+                managerArray.push(item.firstName)
+            })
+            inquirer
+                .prompt({
+                    type: 'list',
+                    name: 'filterManager',
+                    message: 'manager to filter by: ',
+                    choices: managerArray
+                })
+                .then((data) => {
+                    connection.query(
+                        `SELECT employee.id, employee.firstName AS manager
+                        FROM employee
+                        LEFT JOIN manager
+                        ON employee.manager_id = manager.id
+                        WHERE manager.firstName = ?`,
+                        [data['filterManager']],
+                        function (err, results, fields) {
+                            if (err) {
+                                console.log(err.message);
+                                return;
+                            }
+                            console.table(results);
+                            promptUser();
+                        }
+                    );
+                });
+        }
+    );
+};
