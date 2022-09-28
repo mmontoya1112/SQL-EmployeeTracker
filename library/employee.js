@@ -197,10 +197,25 @@ const addEmployee = () => {
                                     }
                                 }
                             }
-                            
-                        })
+                           connection.query(
+                            `INSERT INTO employee (firstName, lastName, title_id, manager_id, managerConfirm)
+                                VALUES (?, ?, ?, ?, ?)`,
+                            [data.firstName, data.lastName, title_id, manager_id, managerConfirm],
+                            function (err, results, fields) {
+                                if (err) {
+                                    console.log(err.message);
+                                    return;
+                                }
+                                dropManager();
+                                createManagerTable();
+                                addManagers();
+                                console.log('successfully added');
+                                promptUser();
+                            }
+                           ); 
+                        });
                 }
-            )
+            );
         }
-    )
-}
+    );
+};
