@@ -1,9 +1,10 @@
+USE employees;
 INSERT INTO department (name)
 VALUES ('engineering'),
     ('finance'),
     ('legal'),
     ('sales')
-INSERT INTO titles (title, salary, departmentID)
+INSERT INTO role (title, salary, departmentID)
 VALUES ('legal lead', 550000, 1),
     ('lawyer', 200000, 1),
     ('sales person', 100000, 2),

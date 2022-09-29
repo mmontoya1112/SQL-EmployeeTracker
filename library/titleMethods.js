@@ -11,10 +11,10 @@ const connection = mysql.createConnection({
 
 const showTitles = () => {
     connection.query(
-     `SELECT titles.id, titles.title, titles.salary, department.name
-        FROM titles
+     `SELECT role.id, role.title, role.salary, department.name
+        FROM role
         LEFT JOIN department
-        ON titles.departmentID = department.id `,
+        ON role.departmentID = department.id `,
     function (err, results, fields) {
         if (err) {
             console.log(err.message);
@@ -66,7 +66,7 @@ const addingTitle = () => {
                         };
                     };
                     connection.query(
-                        `INSERT INTO titles (title, salary, departmentID)
+                        `INSERT INTO role (title, salary, departmentID)
                         VALUES(?,?,?)`,
                         [data.title_title, data.salary, department_id],
                         function (err, results, fields) {

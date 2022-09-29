@@ -12,12 +12,12 @@ const connection = mysql.createConnection({
 
 const viewEmployees = () => {
     connection.query(
-        `SELECT employee.id, employee.firstName, employee.lastName, titles.title, titles.salary AS salary, manager.firstName AS manager, department.name AS department
+        `SELECT employee.id, employee.firstName, employee.lastName, role.title, role.salary AS salary, manager.firstName AS manager, department.name AS department
         FROM employee
         LEFT JOIN roles
-        ON employee.title_id = titles.id
+        ON employee.title_id = role.id
         LEFT JOIN department
-        ON titles.department_id = department.id
+        ON role.department_id = department.id
         LEFT JOIN manager
         ON employee.manager_id = manager.id`,
         function (err, results, fields){
@@ -54,9 +54,9 @@ const employeesByDep = () => {
                         `SELECT employee.id, employee.firsName, employee.lastName, department.name AS department
                         FROM employee
                         LEFT JOIN roles
-                        ON employee.title_id = titles.id
+                        ON employee.title_id = role.id
                         LEFT JOIN department
-                        ON titles.department_id = department.id
+                        ON role.department_id = department.id
                         WHERE department.name = ?`,
                         [data['filterByDep']],
                         function (err, results, fields) {
@@ -116,7 +116,7 @@ const viewByManager = () => {
 };
 const addEmployee = () => {
     connection.query(
-        `SELECT * FROM titles`,
+        `SELECT * FROM role`,
         function (err, results, fields) {
             if (err) {
                 console.log(err.message);
@@ -221,7 +221,7 @@ const addEmployee = () => {
 };
 const employeeUpdate = () => {
     connection.query(
-        `SELECT * FROM titles`,
+        `SELECT * FROM role`,
         function (err, results, fields) {
             if (err) {
                 console.log(err.message);
