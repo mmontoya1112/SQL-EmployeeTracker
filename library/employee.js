@@ -12,7 +12,7 @@ const connection = mysql.createConnection({
 
 const viewEmployees = () => {
     connection.query(
-        `SELECT employee.id, employee.firstName, employee.lastName, role.title, role.salary AS salary, manager.firstName AS manager, department.name AS department
+        `SELECT employee.id, employee.first_name, employee.last_name, role.title, role.salary AS salary, manager.first_name AS manager, department.name AS department
         FROM employee
         LEFT JOIN roles
         ON employee.title_id = role.id
@@ -51,7 +51,7 @@ const employeesByDep = () => {
                 })
                 .then((data) => {
                     connection.query(
-                        `SELECT employee.id, employee.firsName, employee.lastName, department.name AS department
+                        `SELECT employee.id, employee.first_name, employee.last_name, department.name AS department
                         FROM employee
                         LEFT JOIN roles
                         ON employee.title_id = role.id
@@ -95,11 +95,11 @@ const viewByManager = () => {
                 })
                 .then((data) => {
                     connection.query(
-                        `SELECT employee.id, employee.firstName AS manager
+                        `SELECT employee.id, employee.first_name AS manager
                         FROM employee
                         LEFT JOIN manager
                         ON employee.manager_id = manager.id
-                        WHERE manager.firstName = ?`,
+                        WHERE manager.first_name = ?`,
                         [data['filterManager']],
                         function (err, results, fields) {
                             if (err) {
@@ -198,9 +198,9 @@ const addEmployee = () => {
                                 }
                             }
                            connection.query(
-                            `INSERT INTO employee (firstName, lastName, title_id, manager_id, managerConfirm)
+                            `INSERT INTO employee (first_name, last_name, title_id, manager_id, manager_confirm)
                                 VALUES (?, ?, ?, ?, ?)`,
-                            [data.firstName, data.lastName, title_id, manager_id, managerConfirm],
+                            [data.firstName, data.lastName, title_id, manager_id, manager_confirm],
                             function (err, results, fields) {
                                 if (err) {
                                     console.log(err.message);
@@ -232,7 +232,7 @@ const employeeUpdate = () => {
                 titleArray.push(item.title)
             })
             connection.query(
-                `SELECT firstName, lastName FROM employee`,
+                `SELECT first_name, last_name FROM employee`,
                 function (err, results, fields) {
                     if (err) {
                         console.log(err.message);
@@ -272,13 +272,13 @@ const employeeUpdate = () => {
                         };
                         let selectNameArray = data.name_select.split(" ");
                         let lastName = selectNameArray.pop();
-                        let firsName = selectNameArray[0];
+                        let firstName = selectNameArray[0];
 
                         connection.query(
                             `UPDATE employee
                                 SET title_id = ?
-                                WHERE firstName = ? AND lastName = ?`,
-                                [title_id, firsName, lastName],
+                                WHERE first_name = ? AND last_name = ?`,
+                                [title_id, firstName, lastName],
                                 function (err, results, fields) {
                                     if (err) {
                                         console.log(err.message);

@@ -9,8 +9,8 @@ USE employees;
 
 CREATE TABLE manager (
     id INT NOT NULL AUTO_INCREMENT,
-    firstName VARCHAR (30),
-    lastName VARCHAR (30),
+    first_name VARCHAR (30),
+    last_name VARCHAR (30),
     PRIMARY KEY (id)
     );
 
@@ -26,20 +26,20 @@ CREATE TABLE role (
     PRIMARY KEY,
     title VARCHAR(30),
     salary DECIMAL,
-    departmentID INT NOT NULL,
-    FOREIGN KEY (departmentID) REFERENCES department(id)
+    department_id INT NOT NULL,
+    FOREIGN KEY (department_id) REFERENCES department(id)
     ON DELETE CASCADE
 );
 
 CREATE TABLE employee (
     id  INT NOT NULL AUTO_INCREMENT
     PRIMARY KEY,
-    firstName VARCHAR(30),
-    lastName VARCHAR(30),
-    titleID INT,
-    managerID INT,
-    managerConfirm BOOLEAN,
-    FOREIGN KEY (titleID) REFERENCES role(id),
-    FOREIGN KEY (managerID) REFERENCES role(id) ON DELETE 
+    first_name VARCHAR(30),
+    last_name VARCHAR(30),
+    title_id INT,
+    manager_id INT,
+    manager_confirm BOOLEAN,
+    FOREIGN KEY (title_id) REFERENCES role(id),
+    FOREIGN KEY (manager_id) REFERENCES role(id) ON DELETE 
     SET NULL
 )

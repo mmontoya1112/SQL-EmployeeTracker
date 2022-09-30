@@ -66,7 +66,7 @@ const addingTitle = () => {
                         };
                     };
                     connection.query(
-                        `INSERT INTO role (title, salary, departmentID)
+                        `INSERT INTO role (title, salary, department_id)
                         VALUES(?,?,?)`,
                         [data.title_title, data.salary, department_id],
                         function (err, results, fields) {
